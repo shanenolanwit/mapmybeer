@@ -21,4 +21,10 @@
         android:id="@+id/aboutButton"
         android:text="Switch to welcome"/>
 
+    <FrameLayout
+        android:id="@+id/child_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aboutButton"/>
+
 </RelativeLayout>

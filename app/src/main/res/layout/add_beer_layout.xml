@@ -45,13 +45,33 @@
         android:hint="When did you drink this"
         />
 
-    <Button
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/beerLocation"
+        android:textSize="15sp"
+        android:focusableInTouchMode="false"
+        android:layout_below="@id/beerDate"
+        android:layout_centerHorizontal="true"
+        android:hint="Select Location Below"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/beerDate"
+        android:layout_below="@id/beerLocation"
         android:id="@+id/addBeerButton"
         android:text="Feed"/>
+
+
+    <FrameLayout
+        android:id="@+id/beer_map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addBeerButton"/>
+
+
 
 </RelativeLayout>

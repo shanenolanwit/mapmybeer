@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class AddBeerFragment extends Fragment {
     private EditText beerNameET;
     private EditText beerReviewET;
     private EditText beerDateET;
+    private EditText beerLocationET;
     private Button addBeerButton;
 
     private ChangeSensitiveDatePickerDialog beerDatePickerDialog;
@@ -47,6 +49,8 @@ public class AddBeerFragment extends Fragment {
         beerReviewET.setGravity(Gravity.CENTER);
         beerDateET = (EditText) view.findViewById(R.id.beerDate);
         beerDateET.setGravity(Gravity.CENTER);
+        beerLocationET = (EditText) view.findViewById(R.id.beerLocation);
+        beerLocationET.setGravity(Gravity.CENTER);
         addBeerButton = (Button) view.findViewById(R.id.addBeerButton);
 
         addBeerButton.setOnClickListener(new View.OnClickListener() {
@@ -81,13 +85,29 @@ public class AddBeerFragment extends Fragment {
                 beerDatePickerDialog.show();
             }
         });
+
+
         return view;
     }
+
+
 
     private void clearForm(){
        beerNameET.getText().clear();
        beerReviewET.getText().clear();
        beerDateET.getText().clear();
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        insertNestedFragment();
+    }
+
+    // Embeds the child fragment dynamically
+    private void insertNestedFragment() {
+        Fragment childFragment = new SimpleMapFragment(beerLocationET);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.beer_map, childFragment).commit();
     }
 
 
