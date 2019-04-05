@@ -1,65 +1,73 @@
 package com.example.models;
 
-import java.util.Date;
+import android.graphics.Bitmap;
 
-public class Beer {
+import java.io.Serializable;
 
-    private String beerName;
-    private String beerReview;
-    private Date beerDate;
+public class Beer implements Serializable {
+
+    public String _id;
+    private String name;
+    private String review;
+    private Bitmap img;
+    private BeerCoordinates coordinates;
+    private String date;
 
     public Beer() {}
 
-    public Beer(String beerName, String beerReview, Date beerDate) {
-        this.beerName = beerName;
-        this.beerReview = beerReview;
-        this.beerDate = beerDate;
+    public Beer(String name, String review, Bitmap img, BeerCoordinates coordinates, String date) {
+        this.name = name;
+        this.review = review;
+        this.img = img;
+        this.coordinates = coordinates;
+        this.date = date;
     }
 
-    public Beer(String beerName, String beerReview, String beerDateAsString) {
-        this.beerName = beerName;
-        this.beerReview = beerReview;
-        this.beerDate = new Date();
+    public String get_id() {
+        return _id;
     }
 
-    public String getBeerName() {
-        return beerName;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
-    public void setBeerName(String beerName) {
-        this.beerName = beerName;
+    public String getName() {
+        return name;
     }
 
-    public String getBeerReview() {
-        return beerReview;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setBeerReview(String beerReview) {
-        this.beerReview = beerReview;
+    public String getReview() {
+        return review;
     }
 
-    public Date getBeerDate() {
-        return beerDate;
+    public void setReview(String review) {
+        this.review = review;
     }
 
-    public String getBeerDateAsString() {
-        return beerDate.toString();
+    public Bitmap getImg() {
+        return img;
     }
 
-    public void setBeerDate(Date beerDate) {
-        this.beerDate = beerDate;
+    public void setImg(Bitmap img) {
+        this.img = img;
     }
 
-    public void setBeerDate(String beerDateAsString) {
-        this.beerDate = new Date();
+    public BeerCoordinates getCoordinates() {
+        return coordinates;
     }
 
-    @Override
-    public String toString() {
-        return "Beer{" +
-                "beerName='" + beerName + '\'' +
-                ", beerReview='" + beerReview + '\'' +
-                ", beerDate=" + getBeerDateAsString() +
-                '}';
+    public void setCoordinates(BeerCoordinates coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

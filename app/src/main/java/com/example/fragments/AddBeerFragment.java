@@ -4,11 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StrictMode;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -30,10 +26,7 @@ import com.example.models.Beer;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Calendar;
-import java.util.Random;
 
 
 public class AddBeerFragment extends Fragment {
@@ -85,8 +78,8 @@ public class AddBeerFragment extends Fragment {
                 String beerName = beerNameET.getText().toString();
                 String beerReview = beerReviewET.getText().toString();
                 String beerDate = beerDateET.getText().toString();
-                Beer newBeer = new Beer(beerName,beerReview,beerDate);
-                Log.d(TAG, "onClick: clicked add beer " + newBeer);
+                Beer newBeer = new Beer();
+                Log.d(TAG, "onClick: clicked add beer " + beerName);
                 clearForm();
                 ((MainActivity)getActivity()).setViewPager(1);
             }
