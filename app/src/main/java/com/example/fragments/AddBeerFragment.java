@@ -1,5 +1,6 @@
 package com.example.fragments;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,13 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.dialogs.BeerDatePickerDialog;
 import com.example.models.Beer;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
+
+import java.util.Calendar;
 
 
 public class AddBeerFragment extends Fragment {
@@ -28,6 +33,8 @@ public class AddBeerFragment extends Fragment {
     private EditText beerReviewET;
     private EditText beerDateET;
     private Button addBeerButton;
+
+    private BeerDatePickerDialog beerDatePickerDialog;
 
     @Nullable
     @Override
@@ -54,6 +61,24 @@ public class AddBeerFragment extends Fragment {
                 Log.d(TAG, "onClick: clicked add beer " + newBeer);
                 clearForm();
                 ((MainActivity)getActivity()).setViewPager(1);
+            }
+        });
+
+        beerDateET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                beerDatePickerDialog = new BeerDatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        beerDateET.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+
+                }, mYear, mMonth, mDay, beerDateET);
+                beerDatePickerDialog.show();
             }
         });
         return view;

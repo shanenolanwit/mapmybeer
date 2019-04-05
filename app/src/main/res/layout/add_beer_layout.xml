@@ -40,6 +40,8 @@
         android:textSize="15sp"
         android:layout_below="@id/beerReview"
         android:layout_centerHorizontal="true"
+        android:focusableInTouchMode="false"
+        android:inputType="date"
         android:hint="When did you drink this"
         />
 
