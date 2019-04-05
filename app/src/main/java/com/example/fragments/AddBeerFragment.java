@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,9 +25,12 @@ import android.widget.Toast;
 
 import com.example.dialogs.ChangeSensitiveDatePickerDialog;
 import com.example.models.Beer;
+import com.example.models.BeerCoordinates;
+import com.example.models.BeerValidator;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 
 
@@ -69,7 +74,7 @@ public class AddBeerFragment extends Fragment {
         });
 
         beerPreview = (ImageView) view.findViewById(R.id.beerPreview);
-
+        final AddBeerFragment f = this;
         addBeerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,10 +83,24 @@ public class AddBeerFragment extends Fragment {
                 String beerName = beerNameET.getText().toString();
                 String beerReview = beerReviewET.getText().toString();
                 String beerDate = beerDateET.getText().toString();
-                Beer newBeer = new Beer();
-                Log.d(TAG, "onClick: clicked add beer " + beerName);
-                clearForm();
-                ((MainActivity)getActivity()).setViewPager(1);
+                String beerLocation = beerLocationET.getText().toString();
+                BitmapDrawable drawable = (BitmapDrawable) beerPreview.getDrawable();
+                BeerValidator validator = new BeerValidator(f);
+                if(validator.validate()){
+                    Bitmap img = drawable.getBitmap();
+                    String[] latLng = beerLocation.split(",");
+                    BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
+                    Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
+                    Log.d(TAG, "onClick: clicked add beer " + beerName);
+                    clearForm();
+                    Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
+//                    ((MainActivity)getActivity()).setViewPager(1);
+                }else{
+                    Log.d(TAG, "onClick: Error Creating beer");
+                    Toast.makeText(getContext(),validator.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 
@@ -142,6 +161,43 @@ public class AddBeerFragment extends Fragment {
         transaction.replace(R.id.beer_map, childFragment).commit();
     }
 
+    public ImageView getBeerPreview() {
+        return beerPreview;
+    }
 
+    public void setBeerPreview(ImageView beerPreview) {
+        this.beerPreview = beerPreview;
+    }
 
+    public EditText getBeerNameET() {
+        return beerNameET;
+    }
+
+    public void setBeerNameET(EditText beerNameET) {
+        this.beerNameET = beerNameET;
+    }
+
+    public EditText getBeerReviewET() {
+        return beerReviewET;
+    }
+
+    public void setBeerReviewET(EditText beerReviewET) {
+        this.beerReviewET = beerReviewET;
+    }
+
+    public EditText getBeerDateET() {
+        return beerDateET;
+    }
+
+    public void setBeerDateET(EditText beerDateET) {
+        this.beerDateET = beerDateET;
+    }
+
+    public EditText getBeerLocationET() {
+        return beerLocationET;
+    }
+
+    public void setBeerLocationET(EditText beerLocationET) {
+        this.beerLocationET = beerLocationET;
+    }
 }

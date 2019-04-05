@@ -1,7 +1,9 @@
 package com.example.models;
 
 import android.graphics.Bitmap;
+import android.util.Base64;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 
 public class Beer implements Serializable {
@@ -10,6 +12,7 @@ public class Beer implements Serializable {
     private String name;
     private String review;
     private Bitmap img;
+    private String base64img;
     private BeerCoordinates coordinates;
     private String date;
 
@@ -21,6 +24,11 @@ public class Beer implements Serializable {
         this.img = img;
         this.coordinates = coordinates;
         this.date = date;
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        this.base64img = Base64.encodeToString(imageBytes, Base64.DEFAULT);
     }
 
     public String get_id() {

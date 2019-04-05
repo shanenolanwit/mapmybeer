@@ -11,6 +11,11 @@ public class BeerCoordinates {
         this.longitude = longitude;
     }
 
+    public BeerCoordinates(String latitude, String longitude) {
+        this.latitude = Double.parseDouble(latitude);
+        this.longitude = Double.parseDouble(longitude);
+    }
+
     public BeerCoordinates(String address) {
         this.address = address;
         reverseGeoCode(address);
