@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:textSize="25sp"
+        android:text="Feed Me Beer"
+        android:id="@+id/feedmebeerTitle"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/beerName"
+        android:textSize="15sp"
+        android:layout_below="@id/feedmebeerTitle"
+        android:layout_centerHorizontal="true"
+        android:hint="Beer Name"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/beerReview"
+        android:inputType="textMultiLine"
+        android:textSize="15sp"
+        android:layout_below="@id/beerName"
+        android:layout_centerHorizontal="true"
+        android:hint="Beer Review"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/beerDate"
+        android:textSize="15sp"
+        android:layout_below="@id/beerReview"
+        android:layout_centerHorizontal="true"
+        android:hint="When did you drink this"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/beerDate"
+        android:id="@+id/addBeerButton"
+        android:text="Feed"/>
+
+</RelativeLayout>

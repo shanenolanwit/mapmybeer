@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_camera"
+            android:icon="@drawable/ic_menu_camera"
+            android:title="Import" />
+        <item
+            android:id="@+id/nav_add_beer"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Add Beer" />
+        <item
+            android:id="@+id/nav_browse_beers"
+            android:icon="@drawable/ic_menu_slideshow"
+            android:title="Browse my Beers" />
+        <item
+            android:id="@+id/nav_map_beers"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Map my beers" />
+    </group>
+
+    <item android:title="Utilities">
+        <menu>
+            <item
+                android:id="@+id/nav_tesco"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Tesco API" />
+            <item
+                android:id="@+id/nav_calc"
+                android:icon="@drawable/ic_menu_manage"
+                android:title="Units" />
+            <item
+                android:id="@+id/nav_game"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Game" />
+        </menu>
+    </item>
+
+</menu>
