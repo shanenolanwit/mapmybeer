@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.dialogs.BeerDatePickerDialog;
+import com.example.dialogs.ChangeSensitiveDatePickerDialog;
 import com.example.models.Beer;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
@@ -34,7 +34,7 @@ public class AddBeerFragment extends Fragment {
     private EditText beerDateET;
     private Button addBeerButton;
 
-    private BeerDatePickerDialog beerDatePickerDialog;
+    private ChangeSensitiveDatePickerDialog beerDatePickerDialog;
 
     @Nullable
     @Override
@@ -71,7 +71,7 @@ public class AddBeerFragment extends Fragment {
                 int mYear = c.get(Calendar.YEAR);
                 int mMonth = c.get(Calendar.MONTH);
                 int mDay = c.get(Calendar.DAY_OF_MONTH);
-                beerDatePickerDialog = new BeerDatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                beerDatePickerDialog = new ChangeSensitiveDatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         beerDateET.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
