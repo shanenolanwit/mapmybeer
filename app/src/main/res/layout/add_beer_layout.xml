@@ -12,12 +12,29 @@
         android:text="Feed Me Beer"
         android:id="@+id/feedmebeerTitle"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/feedmebeerTitle"
+        android:id="@+id/beerPreview"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/beerpic"
+        android:layout_below="@id/beerPreview"
+        android:text="Take Picture"
+        />
+
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/beerName"
         android:textSize="15sp"
-        android:layout_below="@id/feedmebeerTitle"
+        android:layout_below="@id/beerpic"
         android:layout_centerHorizontal="true"
         android:hint="Beer Name"
         />
