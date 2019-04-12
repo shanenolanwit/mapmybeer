@@ -14,7 +14,8 @@ public class Beer implements Serializable {
     private Bitmap img;
     private String base64img;
     private BeerCoordinates coordinates;
-    private String date;
+    private String date; //YYYY-MM-DD matches with MYSQL DATE
+
 
     public Beer() {}
 
@@ -23,12 +24,13 @@ public class Beer implements Serializable {
         this.review = review;
         this.img = img;
         this.coordinates = coordinates;
+
         this.date = date;
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         img.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] imageBytes = baos.toByteArray();
-        this.base64img = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        this.base64img = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
     }
 
     public String get_id() {

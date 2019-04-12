@@ -10,7 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Base64;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,15 +23,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.api.MapMyBeerAPIClient;
+import com.example.api.MapMyBeerAPIInterface;
 import com.example.dialogs.ChangeSensitiveDatePickerDialog;
 import com.example.models.Beer;
 import com.example.models.BeerCoordinates;
 import com.example.models.BeerValidator;
-import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 
-import java.io.ByteArrayOutputStream;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class AddBeerFragment extends Fragment {
@@ -83,6 +93,14 @@ public class AddBeerFragment extends Fragment {
                 String beerName = beerNameET.getText().toString();
                 String beerReview = beerReviewET.getText().toString();
                 String beerDate = beerDateET.getText().toString();
+                try {
+                    Log.d(TAG, "onClick: beerdate before format " + beerDate);
+                    Date sourceDate = new SimpleDateFormat("dd/MM/yyyy").parse(beerDate);
+                    beerDate = new SimpleDateFormat("yyyy-MM-dd").format(sourceDate);
+                    Log.d(TAG, "onClick: beerdate after format " + beerDate);
+                } catch (NullPointerException | ParseException e) {
+                    e.printStackTrace();
+                }
                 String beerLocation = beerLocationET.getText().toString();
                 BitmapDrawable drawable = (BitmapDrawable) beerPreview.getDrawable();
                 BeerValidator validator = new BeerValidator(f);
@@ -92,8 +110,26 @@ public class AddBeerFragment extends Fragment {
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
                     Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
                     Log.d(TAG, "onClick: clicked add beer " + beerName);
-                    clearForm();
+
                     Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
+
+                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                    MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
+                    Call call = api.createBeer(newBeer);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            Log.d(TAG, "onResponse: Success");
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            Log.d(TAG, "onFailure: Failure");
+                            Log.d(TAG, "onFailure: " + t.getMessage());
+                            t.printStackTrace();
+                        }
+                    });
+                    clearForm();
 //                    ((MainActivity)getActivity()).setViewPager(1);
                 }else{
                     Log.d(TAG, "onClick: Error Creating beer");
