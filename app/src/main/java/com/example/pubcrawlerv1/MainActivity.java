@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.fragments.AboutFragment;
 import com.example.fragments.AddBeerFragment;
+import com.example.fragments.ListBeerFragment;
 import com.example.fragments.SectionsStatePagerAdapter;
 import com.example.fragments.WelcomeFragment;
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new WelcomeFragment(), "Welcome");
         adapter.addFragment(new AboutFragment(), "About");
         adapter.addFragment(new AddBeerFragment(), "AddBeer");
+        adapter.addFragment(new ListBeerFragment(), "ListBeer");
         viewPager.setAdapter(adapter);
     }
 
@@ -110,7 +112,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_add_beer) {
             setViewPager(2);
         } else if (id == R.id.nav_browse_beers) {
-            setViewPager(1);
+            setViewPager(3);
         } else if (id == R.id.nav_map_beers) {
             setViewPager(0);
         } else if (id == R.id.nav_tesco) {
