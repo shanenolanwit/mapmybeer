@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +51,9 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
         Log.d(TAG, "onBindViewHolder: ");
         Glide.with(mContext)
                 .asBitmap()
-                .load(mBase64images.get(i))
+                .load(Base64.decode(mBase64images.get(i), Base64.DEFAULT))
                 .into(viewHolder.image);
+
 
         viewHolder.name.setText(mNames.get(i));
         viewHolder.image.setOnClickListener(new View.OnClickListener(){
@@ -84,5 +86,13 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
         }
+    }
+
+    public void update(ArrayList<String> mNames, ArrayList<String> mBase64images) {
+        this.mNames.clear();
+        this.mNames.addAll(mNames);
+        this.mBase64images.clear();
+        this.mBase64images.addAll(mBase64images);
+        this.notifyDataSetChanged();
     }
 }

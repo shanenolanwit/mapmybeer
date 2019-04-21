@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new AddBeerFragment(), "AddBeer");
         adapter.addFragment(new ListBeerFragment(), "ListBeer");
         viewPager.setAdapter(adapter);
+
+
     }
 
     public void setViewPager(int fragmentIndex){
