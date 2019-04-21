@@ -16,9 +16,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.adapters.BeerRecyclerViewAdapter;
+import com.example.api.MapMyBeerAPIClient;
+import com.example.api.MapMyBeerAPIInterface;
+import com.example.models.BeerListRetrofit;
+import com.example.models.BeerRetrofit;
 import com.example.pubcrawlerv1.R;
 
 import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 
 public class ListBeerFragment extends Fragment {
@@ -54,7 +63,33 @@ public class ListBeerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        ArrayList<String> mNames = new ArrayList<>();
+        ArrayList<String> mBase64images = new ArrayList<>();
 
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
+        Call call = api.getBeers();
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.d(TAG, "onResponse: Success");
+                Log.d(TAG, "onResponse: " + call);
+                Log.d(TAG, "onResponse: " + response);
+                Log.d(TAG, "onResponse: " + response.body());
+                BeerListRetrofit bl = (BeerListRetrofit) response.body();
+                Log.d(TAG, "onResponse: " + bl.getBeers());
+                for(BeerRetrofit beer : bl.getBeers()){
+                    Log.d(TAG, "onResponse: " + beer.getName());
+                }
+        }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.d(TAG, "onFailure: Failure");
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
             View rootView = inflater.inflate(R.layout.beer_list, container, false);
 
             RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
@@ -62,8 +97,7 @@ public class ListBeerFragment extends Fragment {
 
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
 
-            ArrayList<String> mNames = new ArrayList<>();
-            ArrayList<String> mBase64images = new ArrayList<>();
+
             mNames.add("image 1");
             mNames.add("image 2");
             mNames.add("image 3");
