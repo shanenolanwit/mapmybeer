@@ -56,6 +56,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
     private EditText beerLocationET;
     private EditText beerIdET;
     private Button editBeerButton;
+    private Button deleteBeerButton;
     private String beerId;
 
 
@@ -74,6 +75,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                 BeerRetrofit beer = beerList.getBeers().get(0);
                 Log.d(TAG, "onResponse: " + response.body());
                 Log.d(TAG, "onResponse: " + beer);
+                feedmebeerTitleTV.setText(beer.getName());
                 beerIdET.setText(String.valueOf(beer.getId()));
                 beerNameET.setText(beer.getName());
                 beerReviewET.setText(beer.getReview());
@@ -107,6 +109,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
         beerLocationET.setGravity(Gravity.CENTER);
         beerIdET = (EditText) view.findViewById(R.id.beerId);
         editBeerButton = (Button) view.findViewById(R.id.editBeerButton);
+        deleteBeerButton = (Button) view.findViewById(R.id.editBeerButton);
 
         beerPicButton = (Button) view.findViewById(R.id.beerpic);
         beerPicButton.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +129,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                 String beerName = beerNameET.getText().toString();
                 String beerReview = beerReviewET.getText().toString();
                 String beerDate = beerDateET.getText().toString();
+                String beerId = beerIdET.getText().toString();
                 try {
                     Log.d(TAG, "onClick: beerdate before format " + beerDate);
                     Date sourceDate = new SimpleDateFormat("dd/MM/yyyy").parse(beerDate);
@@ -142,13 +146,14 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                     String[] latLng = beerLocation.split(",");
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
                     Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
-                    Log.d(TAG, "onClick: clicked add beer " + beerName);
+                    newBeer.setBeerId(beerId);
+                    Log.d(TAG, "onClick: clicked update beer " + beerName);
 
-                    Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Updated Beer", Toast.LENGTH_SHORT).show();
 
                     Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
                     MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
-                    Call call = api.createBeer(newBeer);
+                    Call call = api.updateBeer(newBeer, beerId);
                     call.enqueue(new Callback() {
                         @Override
                         public void onResponse(Call call, Response response) {
