@@ -90,4 +90,16 @@ public class BeerRetrofit {
     public void setDate(String date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "BeerRetrofit{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", review='" + review + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }

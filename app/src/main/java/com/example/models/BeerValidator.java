@@ -1,10 +1,9 @@
 package com.example.models;
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 
-import com.example.fragments.AddBeerFragment;
+import com.example.fragments.BeerForm;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,21 +12,21 @@ public class BeerValidator {
 
     private static final String TAG = "BeerValidator";
 
-    private final AddBeerFragment fragment;
+    private final BeerForm fragment;
 
     private String message;
 
-    public BeerValidator(AddBeerFragment fragment) {
+    public BeerValidator(BeerForm fragment) {
         this.fragment = fragment;
         this.message = "Something went wrong";
     }
 
     public boolean validate(){
-        String beerName = getFragment().getBeerNameET().getText().toString();
-        String beerReview = getFragment().getBeerReviewET().getText().toString();
-        String beerDate = getFragment().getBeerDateET().getText().toString();
-        String beerLocation = getFragment().getBeerLocationET().getText().toString();
-        BitmapDrawable drawable = (BitmapDrawable) getFragment().getBeerPreview().getDrawable();
+        String beerName = getForm().getBeerNameET().getText().toString();
+        String beerReview = getForm().getBeerReviewET().getText().toString();
+        String beerDate = getForm().getBeerDateET().getText().toString();
+        String beerLocation = getForm().getBeerLocationET().getText().toString();
+        BitmapDrawable drawable = (BitmapDrawable) getForm().getBeerPreview().getDrawable();
         List<String> errors = new ArrayList<>();
         StringBuilder sb = new StringBuilder();
         if(beerName == null || beerName.length() < 4){
@@ -65,7 +64,7 @@ public class BeerValidator {
         return (errors.size() == 0);
     }
 
-    public AddBeerFragment getFragment() {
+    public BeerForm getForm() {
         return fragment;
     }
 

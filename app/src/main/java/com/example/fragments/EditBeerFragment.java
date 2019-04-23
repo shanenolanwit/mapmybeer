@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,15 +27,15 @@ import com.example.api.MapMyBeerAPIInterface;
 import com.example.dialogs.ChangeSensitiveDatePickerDialog;
 import com.example.models.Beer;
 import com.example.models.BeerCoordinates;
+import com.example.models.BeerListRetrofit;
+import com.example.models.BeerRetrofit;
 import com.example.models.BeerValidator;
 import com.example.pubcrawlerv1.R;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,7 +43,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 
-public class AddBeerFragment extends Fragment implements BeerForm{
+public class EditBeerFragment extends Fragment implements BeerForm {
 
     private static final String TAG = "AddBeerFragment";
 
@@ -55,14 +54,47 @@ public class AddBeerFragment extends Fragment implements BeerForm{
     private EditText beerReviewET;
     private EditText beerDateET;
     private EditText beerLocationET;
-    private Button addBeerButton;
+    private EditText beerIdET;
+    private Button editBeerButton;
+    private String beerId;
+
 
     private ChangeSensitiveDatePickerDialog beerDatePickerDialog;
+
+    private void updateData(){
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
+        Call call = api.getBeer(getBeerId());
+        call.enqueue(new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) {
+                Log.d(TAG, "onResponse: Constructor Success");
+                Log.d(TAG, "onResponse: " + response);
+                BeerListRetrofit beerList = (BeerListRetrofit) response.body();
+                BeerRetrofit beer = beerList.getBeers().get(0);
+                Log.d(TAG, "onResponse: " + response.body());
+                Log.d(TAG, "onResponse: " + beer);
+                beerIdET.setText(String.valueOf(beer.getId()));
+                beerNameET.setText(beer.getName());
+                beerReviewET.setText(beer.getReview());
+                beerDateET.setText(beer.getDate());
+                beerLocationET.setText(beer.getLatitude() + "," + beer.getLongitude());
+
+            }
+
+            @Override
+            public void onFailure(Call call, Throwable t) {
+                Log.d(TAG, "onFailure: Failure");
+                Log.d(TAG, "onFailure: " + t.getMessage());
+                t.printStackTrace();
+            }
+        });
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_beer_layout, container, false);
+        View view = inflater.inflate(R.layout.edit_beer_layout, container, false);
         feedmebeerTitleTV = (TextView) view.findViewById(R.id.feedmebeerTitle);
 
         beerNameET = (EditText) view.findViewById(R.id.beerName);
@@ -73,7 +105,8 @@ public class AddBeerFragment extends Fragment implements BeerForm{
         beerDateET.setGravity(Gravity.CENTER);
         beerLocationET = (EditText) view.findViewById(R.id.beerLocation);
         beerLocationET.setGravity(Gravity.CENTER);
-        addBeerButton = (Button) view.findViewById(R.id.addBeerButton);
+        beerIdET = (EditText) view.findViewById(R.id.beerId);
+        editBeerButton = (Button) view.findViewById(R.id.editBeerButton);
 
         beerPicButton = (Button) view.findViewById(R.id.beerpic);
         beerPicButton.setOnClickListener(new View.OnClickListener() {
@@ -84,8 +117,8 @@ public class AddBeerFragment extends Fragment implements BeerForm{
         });
 
         beerPreview = (ImageView) view.findViewById(R.id.beerPreview);
-        final AddBeerFragment f = this;
-        addBeerButton.setOnClickListener(new View.OnClickListener() {
+        final EditBeerFragment f = this;
+        editBeerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked add beer");
@@ -157,6 +190,7 @@ public class AddBeerFragment extends Fragment implements BeerForm{
                 beerDatePickerDialog.show();
             }
         });
+        updateData();
 
         return view;
     }
@@ -197,6 +231,15 @@ public class AddBeerFragment extends Fragment implements BeerForm{
         transaction.replace(R.id.beer_map, childFragment).commit();
     }
 
+
+    public String getBeerId() { return beerId;  }
+
+    public void setBeerId(String beerId) {
+        this.beerId = beerId;
+    }
+
+    public EditText getBeerIdET() { return beerIdET; }
+
     public ImageView getBeerPreview() {
         return beerPreview;
     }
@@ -204,8 +247,6 @@ public class AddBeerFragment extends Fragment implements BeerForm{
     public void setBeerPreview(ImageView beerPreview) {
         this.beerPreview = beerPreview;
     }
-
-    public EditText getBeerIdET() {   return null;  }
 
     public EditText getBeerNameET() {
         return beerNameET;

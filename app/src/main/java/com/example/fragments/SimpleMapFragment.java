@@ -61,9 +61,9 @@ public class SimpleMapFragment extends Fragment implements OnMapReadyCallback,
 
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        LatLng waterfordIT = new LatLng(52.2462, -7.1202);
+        LatLng waterfordIT = new LatLng(52.24610307207322, -7.137986160814762);
 
-        mMap.addMarker(new MarkerOptions().position(waterfordIT).title("Waterford IT").snippet("52.2462, -7.1202")).showInfoWindow();
+        mMap.addMarker(new MarkerOptions().position(waterfordIT).title("WIT Campus, Cork Rd, Waterford, Ireland").snippet("52.24610307207322,-7.137986160814762")).showInfoWindow();
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(waterfordIT,17));
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
