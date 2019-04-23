@@ -10,6 +10,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface MapMyBeerAPIInterface {
 
@@ -18,6 +19,9 @@ public interface MapMyBeerAPIInterface {
 
     @GET("beers")
     Call<BeerListRetrofit> getBeers();
+
+    @GET("beers/{beerId}")
+    Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);
 
 
 }

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.fragments.EditBeerFragment;
 import com.example.fragments.SimpleMapFragment;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
@@ -28,12 +29,14 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
 
     private static final String TAG = "BeerRecyclerViewAdapter";
 
+    private ArrayList<String> mIds = new ArrayList<>();
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mBase64images = new ArrayList<>();
     private Context mContext;
 
-    public BeerRecyclerViewAdapter(Context mContext, ArrayList<String> mNames, ArrayList<String> mBase64images) {
+    public BeerRecyclerViewAdapter(Context mContext, ArrayList<String> mIds, ArrayList<String> mNames, ArrayList<String> mBase64images) {
         this.mContext = mContext;
+        this.mIds = mIds;
         this.mNames = mNames;
         this.mBase64images = mBase64images;
     }
@@ -62,10 +65,12 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked on an image ");
                 Toast.makeText(mContext, mNames.get(i), Toast.LENGTH_SHORT).show();
-                Fragment childFragment = new SimpleMapFragment();
+                EditBeerFragment childFragment = new EditBeerFragment();
+                childFragment.setBeerId(mIds.get(i));
                 FragmentManager fragmentManager = ((MainActivity)mContext).getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.child_fragment_container, childFragment).commit();
+
             }
         });
     }
@@ -78,17 +83,21 @@ public class BeerRecyclerViewAdapter extends RecyclerView.Adapter<BeerRecyclerVi
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
+        TextView id;
         CircleImageView image;
         TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            id = itemView.findViewById(R.id.beerId);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
         }
     }
 
-    public void update(ArrayList<String> mNames, ArrayList<String> mBase64images) {
+    public void update(ArrayList<String> mIds, ArrayList<String> mNames, ArrayList<String> mBase64images) {
+        this.mIds.clear();
+        this.mIds.addAll(mIds);
         this.mNames.clear();
         this.mNames.addAll(mNames);
         this.mBase64images.clear();

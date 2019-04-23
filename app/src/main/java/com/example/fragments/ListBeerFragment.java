@@ -43,13 +43,14 @@ public class ListBeerFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        ArrayList<String> mIds = new ArrayList<>();
         ArrayList<String> mNames = new ArrayList<>();
         ArrayList<String> mBase64images = new ArrayList<>();
 
         Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Log.d(TAG, "onCreateView: " + mBase64images.size());
-        adapter = new BeerRecyclerViewAdapter(getContext(), mNames, mBase64images);
+        adapter = new BeerRecyclerViewAdapter(getContext(), mIds, mNames, mBase64images);
 
         Call call = api.getBeers();
         call.enqueue(new Callback() {
@@ -58,13 +59,7 @@ public class ListBeerFragment extends Fragment {
                 Log.d(TAG, "ListBeerFragment onResponse: success" );
                 BeerListRetrofit bl = (BeerListRetrofit) response.body();
                 Log.d(TAG, "onResponse: " + bl.getBeers());
-                ArrayList<String> mNames = new ArrayList<>();
-                ArrayList<String> mBase64images = new ArrayList<>();
-                for (BeerRetrofit beer : bl.getBeers()) {
-                    mNames.add(beer.getName());
-                    mBase64images.add(beer.getBase64img());
-                }
-                getAdapter().update(mNames, mBase64images);
+                addBeers(bl);
             }
 
             @Override
@@ -88,6 +83,18 @@ public class ListBeerFragment extends Fragment {
         Log.d(TAG, "onViewCreated: called");
     }
 
+    private void addBeers( BeerListRetrofit bl ){
+        ArrayList<String> mIds = new ArrayList<>();
+        ArrayList<String> mNames = new ArrayList<>();
+        ArrayList<String> mBase64images = new ArrayList<>();
+        for (BeerRetrofit beer : bl.getBeers()) {
+            mIds.add(String.valueOf(beer.getId()));
+            mNames.add(beer.getName());
+            mBase64images.add(beer.getBase64img());
+        }
+        getAdapter().update(mIds, mNames, mBase64images);
+    }
+
     private void updateData(){
         Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
@@ -99,13 +106,7 @@ public class ListBeerFragment extends Fragment {
                 Log.d(TAG, "ListBeerFragment onResponse: success" );
                 BeerListRetrofit bl = (BeerListRetrofit) response.body();
                 Log.d(TAG, "onResponse: " + bl.getBeers());
-                ArrayList<String> mNames = new ArrayList<>();
-                ArrayList<String> mBase64images = new ArrayList<>();
-                for (BeerRetrofit beer : bl.getBeers()) {
-                    mNames.add(beer.getName());
-                    mBase64images.add(beer.getBase64img());
-                }
-                getAdapter().update(mNames, mBase64images);
+                addBeers(bl);
             }
 
             @Override
