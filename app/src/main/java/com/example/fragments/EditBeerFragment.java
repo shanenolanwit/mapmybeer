@@ -109,7 +109,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
         beerLocationET.setGravity(Gravity.CENTER);
         beerIdET = (EditText) view.findViewById(R.id.beerId);
         editBeerButton = (Button) view.findViewById(R.id.editBeerButton);
-        deleteBeerButton = (Button) view.findViewById(R.id.editBeerButton);
+        deleteBeerButton = (Button) view.findViewById(R.id.deleteBeerButton);
 
         beerPicButton = (Button) view.findViewById(R.id.beerpic);
         beerPicButton.setOnClickListener(new View.OnClickListener() {
@@ -124,8 +124,8 @@ public class EditBeerFragment extends Fragment implements BeerForm {
         editBeerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: clicked add beer");
-                Toast.makeText(getActivity(), "Add Beer", Toast.LENGTH_SHORT).show();
+                Log.d(TAG, "onClick: clicked edit beer");
+                Toast.makeText(getActivity(), "Edit Beer", Toast.LENGTH_SHORT).show();
                 String beerName = beerNameET.getText().toString();
                 String beerReview = beerReviewET.getText().toString();
                 String beerDate = beerDateET.getText().toString();
@@ -177,6 +177,41 @@ public class EditBeerFragment extends Fragment implements BeerForm {
 
             }
         });
+
+        deleteBeerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked delete beer");
+                Toast.makeText(getActivity(), "Delete Beer", Toast.LENGTH_SHORT).show();
+                String beerName = beerNameET.getText().toString();
+                String beerId = beerIdET.getText().toString();
+                Toast.makeText(getContext(),"Deleted Beer", Toast.LENGTH_SHORT).show();
+
+                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                    MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
+                    Call call = api.deleteBeer(beerId);
+                    call.enqueue(new Callback() {
+                        @Override
+                        public void onResponse(Call call, Response response) {
+                            Log.d(TAG, "onResponse: Success");
+                        }
+
+                        @Override
+                        public void onFailure(Call call, Throwable t) {
+                            Log.d(TAG, "onFailure: Failure");
+                            Log.d(TAG, "onFailure: " + t.getMessage());
+                            t.printStackTrace();
+                        }
+                    });
+                    clearForm();
+//                    ((MainActivity)getActivity()).setViewPager(1);
+
+
+
+            }
+        });
+
+
 
         beerDateET.setOnClickListener(new View.OnClickListener() {
             @Override
