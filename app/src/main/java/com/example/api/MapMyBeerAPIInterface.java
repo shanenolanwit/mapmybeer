@@ -8,6 +8,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -26,5 +27,7 @@ public interface MapMyBeerAPIInterface {
     @GET("beers/{beerId}")
     Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);
 
+    @DELETE("beers/delete/{beerId}")
+    Call<BeerRetrofit> deleteBeer(@Path("beerId") String beerId);
 
 }

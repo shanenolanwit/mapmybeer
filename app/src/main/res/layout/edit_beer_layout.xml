@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -84,21 +85,37 @@
         android:visibility="gone"
         />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+    <LinearLayout
+        android:id="@+id/page_buttons"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/beerId"
+        android:layout_centerHorizontal="true"
+
+        >
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
         android:id="@+id/editBeerButton"
         android:text="Edit"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="wrap_content"
+        android:id="@+id/deleteBeerButton"
+        android:text="Delete"/>
+    </LinearLayout>
+
 
 
     <FrameLayout
         android:id="@+id/beer_map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editBeerButton"/>
+        android:layout_below="@id/page_buttons"/>
 
 
 
