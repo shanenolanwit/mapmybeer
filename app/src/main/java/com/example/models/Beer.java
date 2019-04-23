@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 public class Beer implements Serializable {
 
-    public String _id;
+    public String beerId;
     private String name;
     private String review;
     private Bitmap img;
@@ -33,12 +33,12 @@ public class Beer implements Serializable {
         this.base64img = Base64.encodeToString(imageBytes, Base64.NO_WRAP);
     }
 
-    public String get_id() {
-        return _id;
+    public String getBeerId() {
+        return beerId;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setBeerId(String beerId) {
+        this.beerId = beerId;
     }
 
     public String getName() {

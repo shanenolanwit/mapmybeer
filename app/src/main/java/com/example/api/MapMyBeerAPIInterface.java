@@ -17,6 +17,9 @@ public interface MapMyBeerAPIInterface {
     @POST("beers/new")
     Call<BeerRetrofit> createBeer(@Body Beer beer);
 
+    @POST("beers/update/{beerId}")
+    Call<BeerRetrofit> updateBeer(@Body Beer beer, @Path("beerId") String beerId);
+
     @GET("beers")
     Call<BeerListRetrofit> getBeers();
 
