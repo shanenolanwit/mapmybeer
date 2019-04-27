@@ -31,4 +31,12 @@ public class DateBeerCountRetrofit {
     public void setCount(Integer count) {
         this.count = count;
     }
+
+    @Override
+    public String toString() {
+        return "DateBeerCountRetrofit{" +
+                "date='" + date + '\'' +
+                ", count=" + count +
+                '}';
+    }
 }

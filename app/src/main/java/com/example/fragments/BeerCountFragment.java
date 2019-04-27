@@ -17,8 +17,19 @@ import com.example.api.MapMyBeerAPIInterface;
 
 import com.example.models.BeerCountRetrofit;
 
+import com.example.models.DateBeerCountRetrofit;
 import com.example.pubcrawlerv1.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lecho.lib.hellocharts.model.Axis;
+import lecho.lib.hellocharts.model.AxisValue;
+import lecho.lib.hellocharts.model.Line;
+import lecho.lib.hellocharts.model.LineChartData;
+import lecho.lib.hellocharts.model.PointValue;
+import lecho.lib.hellocharts.model.Viewport;
+import lecho.lib.hellocharts.view.LineChartView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +41,7 @@ public class BeerCountFragment extends Fragment {
     private static final String TAG = "BeerCountFragment";
 
     private TextView beerCountTitleTV;
+    private LineChartView lineChartView;
 
     private void updateData(){
         Log.d(TAG, "updateData: called update data");
@@ -42,10 +54,48 @@ public class BeerCountFragment extends Fragment {
                 Log.d(TAG, "onResponse: Constructor Success");
                 Log.d(TAG, "onResponse: " + response);
                 BeerCountRetrofit beerCountRF = (BeerCountRetrofit) response.body();
-//                BeerRetrofit beer = beerList.getBeers().get(0);
+                List<DateBeerCountRetrofit> dateCounts = beerCountRF.getData();
                 Log.d(TAG, "onResponse: " + response.body());
                 Log.d(TAG, "onResponse: " + beerCountRF);
                 beerCountTitleTV.setText(beerCountRF.getTotal() + " Beers");
+
+                List yAxisValues = new ArrayList();
+                List axisValues = new ArrayList();
+                Line line = new Line(yAxisValues);
+                int max =0;
+                for(int i = 0; i < dateCounts.size(); i++){
+                    Log.d(TAG, "onResponse: ");
+                    DateBeerCountRetrofit dc = dateCounts.get(i);
+                    max = (dc.getCount() > max) ? dc.getCount() : max;
+                    axisValues.add(i, new AxisValue(i).setLabel(dc.getDate()));
+                    yAxisValues.add(new PointValue(i, dc.getCount()));
+                }
+
+                List lines = new ArrayList();
+                lines.add(line);
+                LineChartData data = new LineChartData();
+                data.setLines(lines);
+
+                Axis axis = new Axis();
+                axis.setValues(axisValues);
+                data.setAxisXBottom(axis);
+                Axis yAxis = new Axis();
+                data.setAxisYLeft(yAxis);
+                yAxis.setName("Sales in millions");
+
+                lineChartView.setLineChartData(data);
+
+                //do this after you had set chart data to make it scrollable
+                // https://github.com/lecho/hellocharts-android/issues/29
+                Viewport v = new Viewport(lineChartView.getMaximumViewport());
+
+                v.left = 0;
+                v.right = dateCounts.size()+1;
+                v.top = max + 1;
+                lineChartView.setMaximumViewport(v);
+                lineChartView.setCurrentViewport(v);
+                lineChartView.setViewportCalculationEnabled(false);
+
 
 
             }
@@ -73,6 +123,7 @@ public class BeerCountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.beer_count_layout, container, false);
         beerCountTitleTV = (TextView) view.findViewById(R.id.beerCountTitle);
+        lineChartView =  (LineChartView) view.findViewById(R.id.chart);
         updateData();
         return view;
     }
