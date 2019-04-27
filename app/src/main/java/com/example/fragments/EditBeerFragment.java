@@ -121,6 +121,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
         });
 
         beerPreview = (ImageView) view.findViewById(R.id.beerPreview);
+
         final EditBeerFragment f = this;
         editBeerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +160,8 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                         @Override
                         public void onResponse(Call call, Response response) {
                             Log.d(TAG, "onResponse: Success");
-                            ((MainActivity)getActivity()).setViewPager(1);
+                            clearForm();
+                            ((MainActivity)getActivity()).setViewPager(0);
                         }
 
                         @Override
@@ -169,10 +171,10 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                             t.printStackTrace();
                         }
                     });
-                    clearForm();
-//                    ((MainActivity)getActivity()).setViewPager(1);
+
+
                 }else{
-                    Log.d(TAG, "onClick: Error Creating beer");
+                    Log.d(TAG, "onClick: Error Editing beer");
                     Toast.makeText(getContext(),validator.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -196,6 +198,8 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                         @Override
                         public void onResponse(Call call, Response response) {
                             Log.d(TAG, "onResponse: Success");
+                            clearForm();
+                            ((MainActivity)getActivity()).setViewPager(0);
                         }
 
                         @Override
@@ -205,8 +209,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                             t.printStackTrace();
                         }
                     });
-                    clearForm();
-//                    ((MainActivity)getActivity()).setViewPager(1);
+
 
 
 

@@ -1,6 +1,7 @@
 package com.example.api;
 
 import com.example.models.Beer;
+import com.example.models.BeerCountRetrofit;
 import com.example.models.BeerListRetrofit;
 import com.example.models.BeerRetrofit;
 
@@ -23,6 +24,9 @@ public interface MapMyBeerAPIInterface {
 
     @GET("beers")
     Call<BeerListRetrofit> getBeers();
+
+    @GET("count")
+    Call<BeerCountRetrofit> countBeers();
 
     @GET("beers/{beerId}")
     Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);
