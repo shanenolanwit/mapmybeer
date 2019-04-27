@@ -11,6 +11,10 @@ public class BeerCountRetrofit {
     @Expose
     public Integer total;
 
+    @SerializedName("data")
+    @Expose
+    public List<DateBeerCountRetrofit> data;
+
     public BeerCountRetrofit() {
     }
 
@@ -23,10 +27,19 @@ public class BeerCountRetrofit {
         this.total = total;
     }
 
+    public List<DateBeerCountRetrofit> getData() {
+        return data;
+    }
+
+    public void setData(List<DateBeerCountRetrofit> data) {
+        this.data = data;
+    }
+
     @Override
     public String toString() {
         return "BeerCountRetrofit{" +
                 "total=" + total +
+                ", data=" + data +
                 '}';
     }
 }
