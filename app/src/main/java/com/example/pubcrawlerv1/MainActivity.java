@@ -1,11 +1,10 @@
 package com.example.pubcrawlerv1;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+
 import android.support.v4.view.ViewPager;
 import android.util.Log;
-import android.view.View;
+
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,11 +14,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.fragments.AboutFragment;
 import com.example.fragments.AddBeerFragment;
+import com.example.fragments.BeerCountFragment;
 import com.example.fragments.ListBeerFragment;
 import com.example.fragments.SectionsStatePagerAdapter;
-import com.example.fragments.WelcomeFragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -52,8 +51,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setUpViewPager(ViewPager viewPager){
         SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new WelcomeFragment(), "Welcome");
-        adapter.addFragment(new AboutFragment(), "About");
+        adapter.addFragment(new BeerCountFragment(), "Count");
         adapter.addFragment(new AddBeerFragment(), "AddBeer");
         adapter.addFragment(new ListBeerFragment(), "ListBeer");
         viewPager.setAdapter(adapter);
@@ -108,13 +106,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Log.d(TAG, "onNavigationItemSelected: " + id);
-        Log.d(TAG, "gallery would be: " + R.id.nav_add_beer);
         if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_add_beer) {
-            setViewPager(2);
+            setViewPager(1);
         } else if (id == R.id.nav_browse_beers) {
-            setViewPager(3);
+            setViewPager(2);
         } else if (id == R.id.nav_map_beers) {
             setViewPager(0);
         } else if (id == R.id.nav_tesco) {

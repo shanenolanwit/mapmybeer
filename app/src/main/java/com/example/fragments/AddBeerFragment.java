@@ -29,6 +29,7 @@ import com.example.dialogs.ChangeSensitiveDatePickerDialog;
 import com.example.models.Beer;
 import com.example.models.BeerCoordinates;
 import com.example.models.BeerValidator;
+import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 
 
@@ -120,6 +121,8 @@ public class AddBeerFragment extends Fragment implements BeerForm{
                         @Override
                         public void onResponse(Call call, Response response) {
                             Log.d(TAG, "onResponse: Success");
+                            clearForm();
+                            ((MainActivity)getActivity()).setViewPager(0);
                         }
 
                         @Override
@@ -129,8 +132,7 @@ public class AddBeerFragment extends Fragment implements BeerForm{
                             t.printStackTrace();
                         }
                     });
-                    clearForm();
-//                    ((MainActivity)getActivity()).setViewPager(1);
+
                 }else{
                     Log.d(TAG, "onClick: Error Creating beer");
                     Toast.makeText(getContext(),validator.getMessage(), Toast.LENGTH_SHORT).show();
