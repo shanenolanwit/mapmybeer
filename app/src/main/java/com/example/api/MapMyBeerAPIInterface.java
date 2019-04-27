@@ -1,6 +1,7 @@
 package com.example.api;
 
 import com.example.models.Beer;
+import com.example.models.BeerCountFilter;
 import com.example.models.BeerCountRetrofit;
 import com.example.models.BeerListRetrofit;
 import com.example.models.BeerRetrofit;
@@ -27,6 +28,9 @@ public interface MapMyBeerAPIInterface {
 
     @GET("count")
     Call<BeerCountRetrofit> countBeers();
+
+    @POST("count")
+    Call<BeerCountRetrofit> countBeers(@Body BeerCountFilter filter);
 
     @GET("beers/{beerId}")
     Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);
