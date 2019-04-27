@@ -30,6 +30,7 @@ import com.example.models.BeerCoordinates;
 import com.example.models.BeerListRetrofit;
 import com.example.models.BeerRetrofit;
 import com.example.models.BeerValidator;
+import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 
 import java.text.ParseException;
@@ -158,6 +159,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                         @Override
                         public void onResponse(Call call, Response response) {
                             Log.d(TAG, "onResponse: Success");
+                            ((MainActivity)getActivity()).setViewPager(1);
                         }
 
                         @Override

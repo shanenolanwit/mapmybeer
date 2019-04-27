@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
 
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
-    private ViewPager mViewPager;
+    private CustomViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (CustomViewPager) findViewById(R.id.container);
         setUpViewPager(mViewPager);
     }
 
@@ -126,5 +126,21 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public SectionsStatePagerAdapter getmSectionsStatePagerAdapter() {
+        return mSectionsStatePagerAdapter;
+    }
+
+    public void setmSectionsStatePagerAdapter(SectionsStatePagerAdapter mSectionsStatePagerAdapter) {
+        this.mSectionsStatePagerAdapter = mSectionsStatePagerAdapter;
+    }
+
+    public CustomViewPager getmViewPager() {
+        return mViewPager;
+    }
+
+    public void setmViewPager(CustomViewPager mViewPager) {
+        this.mViewPager = mViewPager;
     }
 }
