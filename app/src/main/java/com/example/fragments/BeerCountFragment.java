@@ -1,6 +1,7 @@
 package com.example.fragments;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,17 +11,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.api.MapMyBeerAPIClient;
 import com.example.api.MapMyBeerAPIInterface;
 
+import com.example.dialogs.ChangeSensitiveDatePickerDialog;
+import com.example.models.BeerCountFilter;
 import com.example.models.BeerCountRetrofit;
 
 import com.example.models.DateBeerCountRetrofit;
 import com.example.pubcrawlerv1.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 import java.util.List;
 
 import lecho.lib.hellocharts.model.Axis;
@@ -42,12 +52,33 @@ public class BeerCountFragment extends Fragment {
 
     private TextView beerCountTitleTV;
     private LineChartView lineChartView;
+    private EditText fromDateET;
+    private EditText toDateET;
+    private ChangeSensitiveDatePickerDialog fromDatePickerDialog;
+    private ChangeSensitiveDatePickerDialog toDatePickerDialog;
+    private Button filterButton;
 
     private void updateData(){
         Log.d(TAG, "updateData: called update data");
         Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Call call = api.countBeers();
+        if(fromDateET != null && toDateET != null){
+            String fromDate = fromDateET.getText().toString();
+            String toDate = toDateET.getText().toString();
+
+            if(fromDate != null && toDate != null){
+                try{
+                    fromDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(fromDate));
+                    toDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(toDate));
+                    call = api.countBeers(new BeerCountFilter(fromDate,toDate));
+                } catch(Exception e){
+                    Toast.makeText(getContext(), "Error parsing to and from dates", Toast.LENGTH_LONG);
+                }
+
+            }
+        }
+
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -113,8 +144,8 @@ public class BeerCountFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            Log.d(TAG, "setUserVisibleHint: refresssssssh");
             updateData();
+
         }
     }
 
@@ -124,6 +155,50 @@ public class BeerCountFragment extends Fragment {
         View view = inflater.inflate(R.layout.beer_count_layout, container, false);
         beerCountTitleTV = (TextView) view.findViewById(R.id.beerCountTitle);
         lineChartView =  (LineChartView) view.findViewById(R.id.chart);
+        fromDateET = (EditText) view.findViewById(R.id.fromDate);
+        toDateET = (EditText) view.findViewById(R.id.toDate);
+        fromDateET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                fromDatePickerDialog = new ChangeSensitiveDatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        fromDateET.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+
+                }, mYear, mMonth, mDay, fromDateET);
+                fromDatePickerDialog.show();
+            }
+        });
+        toDateET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+                toDatePickerDialog = new ChangeSensitiveDatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        toDateET.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+
+                }, mYear, mMonth, mDay, toDateET);
+                toDatePickerDialog.show();
+            }
+        });
+        filterButton = (Button) view.findViewById(R.id.filterButton);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked filter");
+                updateData();
+            }
+        });
         updateData();
         return view;
     }
