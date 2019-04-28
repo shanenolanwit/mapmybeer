@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.example.fragments.AddBeerFragment;
 import com.example.fragments.BeerCountFragment;
 import com.example.fragments.ListBeerFragment;
+import com.example.fragments.ListTescoAlcoholFragment;
 import com.example.fragments.SectionsStatePagerAdapter;
 
 
@@ -54,6 +55,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new BeerCountFragment(), "Count");
         adapter.addFragment(new AddBeerFragment(), "AddBeer");
         adapter.addFragment(new ListBeerFragment(), "ListBeer");
+        adapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
         viewPager.setAdapter(adapter);
 
 
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_map_beers) {
             setViewPager(0);
         } else if (id == R.id.nav_tesco) {
-
+            setViewPager(3);
         } else if (id == R.id.nav_game) {
 
         }
