@@ -6,7 +6,6 @@ public class TescoListWrapper {
     public int status;
     public String message;
     public List<TescoListRecord> products;
-    public TescoInputWrapper input;
 
     public TescoListWrapper(){}
 
@@ -34,7 +33,4 @@ public class TescoListWrapper {
         this.products = products;
     }
 
-    public TescoInputWrapper getInput() {  return input; }
-
-    public void setInput(TescoInputWrapper input) {   this.input = input;  }
 }

@@ -5,10 +5,6 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
-        <item
             android:id="@+id/nav_add_beer"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Add Beer" />
@@ -28,14 +24,6 @@
                 android:id="@+id/nav_tesco"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Tesco API" />
-            <item
-                android:id="@+id/nav_calc"
-                android:icon="@drawable/ic_menu_manage"
-                android:title="Units" />
-            <item
-                android:id="@+id/nav_game"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Game" />
         </menu>
     </item>
 

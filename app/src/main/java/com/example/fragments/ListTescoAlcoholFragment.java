@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 import com.example.adapters.TescoRecyclerViewAdapter;
@@ -36,6 +37,9 @@ public class ListTescoAlcoholFragment extends Fragment {
     private static final String TAG = "ListBeerFragment";
 
     private TescoRecyclerViewAdapter adapter;
+    private Button previousButton;
+    private Button nextButton;
+    int offset = 0;
 
     public ListTescoAlcoholFragment() {
     }
@@ -44,38 +48,41 @@ public class ListTescoAlcoholFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        ArrayList<String> mIds = new ArrayList<>();
         ArrayList<String> mNames = new ArrayList<>();
         ArrayList<String> mDescriptions = new ArrayList<>();
-        ArrayList<String> mBase64images = new ArrayList<>();
-
-        Retrofit retrofit = TescoAPIClient.getRetrofitClient("https://im33aoagff.execute-api.eu-west-1.amazonaws.com/");
+        ArrayList<String> mImages = new ArrayList<>();
+        String tescoApiUrl = getResources().getString(R.string.tesco_lambda_url);
+        Retrofit retrofit = TescoAPIClient.getRetrofitClient(tescoApiUrl);
         TescoAPIInterface api = retrofit.create(TescoAPIInterface.class);
-        Log.d(TAG, "onCreateView: " + mBase64images.size());
-        adapter = new TescoRecyclerViewAdapter(getContext(), mIds, mNames, mDescriptions, mBase64images);
+        Log.d(TAG, "onCreateView: " + mImages.size());
+        adapter = new TescoRecyclerViewAdapter(getContext(), mNames, mDescriptions, mImages);
 
-        Call call = api.getAll(2,0);
-        call.enqueue(new Callback() {
-            @Override
-            public void onResponse(Call call, Response response) {
-                Log.d(TAG, "ListBeerFragment onResponse: success" );
-                TescoListWrapper bl = (TescoListWrapper) response.body();
-                Log.d(TAG, "onResponse: " + bl.getProducts());
-                addBeers(bl);
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Log.d(TAG, "onFailure: Failure");
-                Log.d(TAG, "onFailure: " + t.getMessage());
-                t.printStackTrace();
-            }
-        });
         View rootView = inflater.inflate(R.layout.tesco_list, container, false);
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        previousButton = (Button) rootView.findViewById(R.id.prevButton);
+        nextButton = (Button) rootView.findViewById(R.id.nextButton);
+        previousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(offset > 0){
+                    offset = offset-10;
+                    updateData();
+                }
+            }
+        });
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    offset = offset+10;
+                    updateData();
+            }
+        });
+        updateData();
+
+
         return rootView;
     }
 
@@ -85,31 +92,30 @@ public class ListTescoAlcoholFragment extends Fragment {
         Log.d(TAG, "onViewCreated: called");
     }
 
-    private void addBeers( TescoListWrapper bl ){
-        ArrayList<String> mIds = new ArrayList<>();
+    private void addBeers( TescoListWrapper wrapper ){
         ArrayList<String> mNames = new ArrayList<>();
         ArrayList<String> mDescriptions = new ArrayList<>();
-        ArrayList<String> mBase64images = new ArrayList<>();
-        for (TescoListRecord beer : bl.getProducts()) {
-            mIds.add(String.valueOf(beer.getId()));
-            mNames.add(beer.getName());
-            mDescriptions.add(beer.getDescription().toString());
-            mBase64images.add(beer.getImage());
+        ArrayList<String> mImages = new ArrayList<>();
+        for (TescoListRecord product : wrapper.getProducts()) {
+            mNames.add(product.getName());
+            mDescriptions.add(product.getDescription().toString());
+            mImages.add(product.getImage());
         }
-        getAdapter().update(mIds, mNames, mBase64images);
+        getAdapter().update(mNames, mDescriptions, mImages);
     }
 
     private void updateData(){
         Retrofit retrofit = TescoAPIClient.getRetrofitClient("https://im33aoagff.execute-api.eu-west-1.amazonaws.com/");
         TescoAPIInterface api = retrofit.create(TescoAPIInterface.class);
-
-        Call call = api.getAll(2,0);
+        int limit = 3;
+        Call call = api.getAll(limit,getOffset());
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
                 Log.d(TAG, "ListBeerFragment onResponse: success" );
-                TescoListWrapper bl = (TescoListWrapper) response.body();
+                TescoListWrapper wrapper = (TescoListWrapper) response.body();
                 Log.d(TAG, "onResponse: " + response);
+                addBeers(wrapper);
             }
 
             @Override
@@ -133,5 +139,29 @@ public class ListTescoAlcoholFragment extends Fragment {
 
     public TescoRecyclerViewAdapter getAdapter() {
         return adapter;
+    }
+
+    public Button getPreviousButton() {
+        return previousButton;
+    }
+
+    public void setPreviousButton(Button previousButton) {
+        this.previousButton = previousButton;
+    }
+
+    public Button getNextButton() {
+        return nextButton;
+    }
+
+    public void setNextButton(Button nextButton) {
+        this.nextButton = nextButton;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 }

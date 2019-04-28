@@ -108,9 +108,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Log.d(TAG, "onNavigationItemSelected: " + id);
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_add_beer) {
+        if (id == R.id.nav_add_beer) {
             setViewPager(1);
         } else if (id == R.id.nav_browse_beers) {
             setViewPager(2);
@@ -118,8 +116,6 @@ public class MainActivity extends AppCompatActivity
             setViewPager(0);
         } else if (id == R.id.nav_tesco) {
             setViewPager(3);
-        } else if (id == R.id.nav_game) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

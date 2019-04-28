@@ -25,19 +25,17 @@ public class TescoRecyclerViewAdapter extends RecyclerView.Adapter<TescoRecycler
 
     private static final String TAG = "BeerRecyclerViewAdapter";
 
-    private ArrayList<String> mIds = new ArrayList<>();
+
     private ArrayList<String> mNames = new ArrayList<>();
     private ArrayList<String> mDescriptions = new ArrayList<>();
     private ArrayList<String> mImageUrls = new ArrayList<>();
     private Context mContext;
 
     public TescoRecyclerViewAdapter(Context mContext,
-                                    ArrayList<String> mIds,
                                     ArrayList<String> mNames,
                                     ArrayList<String> mDescriptions,
                                     ArrayList<String> mImageUrls) {
         this.mContext = mContext;
-        this.mIds = mIds;
         this.mNames = mNames;
         this.mDescriptions = mDescriptions;
         this.mImageUrls = mImageUrls;
@@ -75,27 +73,27 @@ public class TescoRecyclerViewAdapter extends RecyclerView.Adapter<TescoRecycler
     }
 
 
+
+
+    public void update( ArrayList<String> mNames, ArrayList<String> mDescriptions, ArrayList<String> mBase64images) {
+        this.mNames.clear();
+        this.mNames.addAll(mNames);
+        this.mDescriptions.clear();
+        this.mDescriptions.addAll(mDescriptions);
+        this.mImageUrls.clear();
+        this.mImageUrls.addAll(mBase64images);
+        this.notifyDataSetChanged();
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        TextView id;
         ImageView image;
         TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.beerId);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
         }
-    }
-
-    public void update(ArrayList<String> mIds, ArrayList<String> mNames, ArrayList<String> mBase64images) {
-        this.mIds.clear();
-        this.mIds.addAll(mIds);
-        this.mNames.clear();
-        this.mNames.addAll(mNames);
-        this.mImageUrls.clear();
-        this.mImageUrls.addAll(mBase64images);
-        this.notifyDataSetChanged();
     }
 }
