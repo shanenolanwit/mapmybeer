@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.api.MapMyBeerAPIClient;
 import com.example.api.MapMyBeerAPIInterface;
 import com.example.dialogs.ChangeSensitiveDatePickerDialog;
@@ -77,10 +80,20 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                 Log.d(TAG, "onResponse: " + response.body());
                 Log.d(TAG, "onResponse: " + beer);
                 feedmebeerTitleTV.setText(beer.getName());
+                byte[] decodedString = Base64.decode(beer.getBase64img(), Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                beerPreview.setImageBitmap(decodedByte);
                 beerIdET.setText(String.valueOf(beer.getId()));
                 beerNameET.setText(beer.getName());
                 beerReviewET.setText(beer.getReview());
-                beerDateET.setText(beer.getDate());
+                String beerDateString = beer.getDate();
+                try{
+                    Date sourceDate = new SimpleDateFormat("yyyy-MM-dd").parse(beer.getDate());
+                    beerDateString = new SimpleDateFormat("dd/MM/yyyy").format(sourceDate);
+                } catch(Exception e){
+
+                }
+                beerDateET.setText(beerDateString);
                 beerLocationET.setText(beer.getLatitude() + "," + beer.getLongitude());
 
             }
