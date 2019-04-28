@@ -19,6 +19,7 @@ import com.example.fragments.BeerCountFragment;
 import com.example.fragments.ListBeerFragment;
 import com.example.fragments.ListTescoAlcoholFragment;
 import com.example.fragments.SectionsStatePagerAdapter;
+import com.example.fragments.StandardMapFragment;
 
 
 public class MainActivity extends AppCompatActivity
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new AddBeerFragment(), "AddBeer");
         adapter.addFragment(new ListBeerFragment(), "ListBeer");
         adapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
+        adapter.addFragment(new StandardMapFragment(), "StandardMap");
         viewPager.setAdapter(adapter);
 
 
@@ -112,9 +114,11 @@ public class MainActivity extends AppCompatActivity
             setViewPager(1);
         } else if (id == R.id.nav_browse_beers) {
             setViewPager(2);
-        } else if (id == R.id.nav_map_beers) {
+        } else if (id == R.id.nav_chart_beers) {
             setViewPager(0);
-        } else if (id == R.id.nav_tesco) {
+        } else if (id == R.id.nav_map_beers) {
+            setViewPager(4);
+        }else if (id == R.id.nav_tesco) {
             setViewPager(3);
         }
 

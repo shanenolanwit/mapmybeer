@@ -1,6 +1,8 @@
 package com.example.api;
 
 import com.example.models.Beer;
+import com.example.models.BeerCoordListWrapper;
+import com.example.models.BeerCoordinates;
 import com.example.models.BeerCountFilter;
 import com.example.models.BeerCountRetrofit;
 import com.example.models.BeerListRetrofit;
@@ -34,6 +36,10 @@ public interface MapMyBeerAPIInterface {
 
     @GET("beers/{beerId}")
     Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);
+
+    @GET("locate/{name}")
+    Call<BeerCoordListWrapper> locateBeers(@Path("name") String name);
+
 
     @DELETE("beers/delete/{beerId}")
     Call<BeerRetrofit> deleteBeer(@Path("beerId") String beerId);
