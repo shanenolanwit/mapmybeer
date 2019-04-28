@@ -13,6 +13,10 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Browse my Beers" />
         <item
+            android:id="@+id/nav_chart_beers"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Chart my beers" />
+        <item
             android:id="@+id/nav_map_beers"
             android:icon="@drawable/ic_menu_manage"
             android:title="Map my beers" />

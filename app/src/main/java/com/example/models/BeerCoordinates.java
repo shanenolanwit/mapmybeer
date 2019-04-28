@@ -6,6 +6,10 @@ public class BeerCoordinates {
     private double longitude;
     private String address;
 
+    // optional
+    private String name;
+    private String date;
+
     public BeerCoordinates(double latitude, double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -32,6 +36,14 @@ public class BeerCoordinates {
         setLongitude(0);
     }
 
+    @Override
+    public String toString() {
+        return "BeerCoordinates{" +
+                "latitude=" + latitude +
+                ", longitude=" + longitude +
+                '}';
+    }
+
     public double getLatitude() {
         return latitude;
     }
@@ -54,5 +66,21 @@ public class BeerCoordinates {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
