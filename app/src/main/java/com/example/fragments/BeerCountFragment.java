@@ -67,13 +67,13 @@ public class BeerCountFragment extends Fragment {
             String fromDate = fromDateET.getText().toString();
             String toDate = toDateET.getText().toString();
 
-            if(fromDate != null && toDate != null){
+            if(!fromDate.isEmpty() && !toDate.isEmpty()){
                 try{
                     fromDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(fromDate));
                     toDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(toDate));
                     call = api.countBeers(new BeerCountFilter(fromDate,toDate));
                 } catch(Exception e){
-                    Toast.makeText(getContext(), "Error parsing to and from dates", Toast.LENGTH_LONG);
+                    Log.d(TAG, "updateData: got an exception parsing dates");
                 }
 
             }
@@ -83,11 +83,10 @@ public class BeerCountFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) {
                 Log.d(TAG, "onResponse: Constructor Success");
-                Log.d(TAG, "onResponse: " + response);
+
                 BeerCountRetrofit beerCountRF = (BeerCountRetrofit) response.body();
                 List<DateBeerCountRetrofit> dateCounts = beerCountRF.getData();
                 Log.d(TAG, "onResponse: " + response.body());
-                Log.d(TAG, "onResponse: " + beerCountRF);
                 beerCountTitleTV.setText(beerCountRF.getTotal() + " Beers");
 
                 List yAxisValues = new ArrayList();
@@ -199,20 +198,15 @@ public class BeerCountFragment extends Fragment {
                 updateData();
             }
         });
-        updateData();
         return view;
     }
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        insertNestedFragment();
+    public void onViewCreated(View view, Bundle savedInstanceState){
     }
 
-    // Embeds the child fragment dynamically
-    private void insertNestedFragment() {
-       // TODO: Decide what should go in here if anything
-    }
+
 
 
 }
