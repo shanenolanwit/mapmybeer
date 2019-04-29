@@ -143,6 +143,11 @@ public class BeerCountFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
+            if(fromDateET != null && toDateET != null){
+                fromDateET.setText("");
+                toDateET.setText("");
+            }
+
             updateData();
 
         }

@@ -6,19 +6,19 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_add_beer"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_menu_add_24dp"
             android:title="Add Beer" />
         <item
             android:id="@+id/nav_browse_beers"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_menu_gallery"
             android:title="Browse my Beers" />
         <item
             android:id="@+id/nav_chart_beers"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_chart_24dp"
             android:title="Chart my beers" />
         <item
             android:id="@+id/nav_map_beers"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_map_24dp"
             android:title="Map my beers" />
     </group>
 
@@ -26,7 +26,7 @@
         <menu>
             <item
                 android:id="@+id/nav_tesco"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/ic_menu_tesco_24dp"
                 android:title="Tesco API" />
         </menu>
     </item>
