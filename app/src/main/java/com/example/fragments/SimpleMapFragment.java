@@ -61,11 +61,31 @@ public class SimpleMapFragment extends Fragment implements OnMapReadyCallback,
 
         mMap.setBuildingsEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        LatLng waterfordIT = new LatLng(52.24610307207322, -7.137986160814762);
+        if(getLocationEditText().getText().toString().isEmpty()){
+            LatLng waterfordIT = new LatLng(52.24610307207322, -7.137986160814762);
 
-        mMap.addMarker(new MarkerOptions().position(waterfordIT).title("WIT Campus, Cork Rd, Waterford, Ireland").snippet("52.24610307207322,-7.137986160814762")).showInfoWindow();
+            mMap.addMarker(new MarkerOptions().position(waterfordIT).title("WIT Campus, Cork Rd, Waterford, Ireland").snippet("52.24610307207322,-7.137986160814762")).showInfoWindow();
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(waterfordIT,17));
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(waterfordIT,17));
+        } else{
+            String[] latLongStringArray = getLocationEditText().getText().toString().split(",");
+            double lat = Double.valueOf(latLongStringArray[0]);
+            double lng = Double.valueOf(latLongStringArray[1]);
+            LatLng currentLocation = new LatLng(lat, lng);
+            Geocoder geoCoder = new Geocoder(getContext());
+            String title = "Beer Location";
+            try {
+                List<Address> matches = geoCoder.getFromLocation(lat, lng, 1);
+                Address bestMatch = (matches.isEmpty() ? null : matches.get(0));
+                title = bestMatch.getAddressLine(0);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            mMap.addMarker(new MarkerOptions().position(currentLocation).title(title).snippet(getLocationEditText().getText().toString())).showInfoWindow();
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation,17));
+        }
+
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
