@@ -19,7 +19,7 @@
             android:id="@+id/filterName"
             android:textSize="15sp"
             android:focusableInTouchMode="false"
-            android:hint="From"
+            android:hint="Name"
             />
 
         <Button
