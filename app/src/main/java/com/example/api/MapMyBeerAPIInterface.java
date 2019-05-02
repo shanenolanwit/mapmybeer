@@ -7,6 +7,8 @@ import com.example.models.BeerCountFilter;
 import com.example.models.BeerCountRetrofit;
 import com.example.models.BeerListRetrofit;
 import com.example.models.BeerRetrofit;
+import com.example.models.User;
+import com.example.models.UserAuthResult;
 
 import java.util.List;
 
@@ -18,6 +20,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 
 public interface MapMyBeerAPIInterface {
+
+    @POST("auth")
+    Call<UserAuthResult> auth(@Body User user);
 
     @POST("beers/new")
     Call<BeerRetrofit> createBeer(@Body Beer beer);
