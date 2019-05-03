@@ -9,6 +9,7 @@ import java.io.Serializable;
 public class Beer implements Serializable {
 
     public String beerId;
+    public String email;
     private String name;
     private String review;
     private Bitmap img;
@@ -19,7 +20,8 @@ public class Beer implements Serializable {
 
     public Beer() {}
 
-    public Beer(String name, String review, Bitmap img, BeerCoordinates coordinates, String date) {
+    public Beer(String email, String name, String review, Bitmap img, BeerCoordinates coordinates, String date) {
+        this.email = email;
         this.name = name;
         this.review = review;
         this.img = img;
@@ -40,6 +42,10 @@ public class Beer implements Serializable {
     public void setBeerId(String beerId) {
         this.beerId = beerId;
     }
+
+    public String getEmail() {  return email;  }
+
+    public void setEmail(String email) { this.email = email; }
 
     public String getName() {
         return name;

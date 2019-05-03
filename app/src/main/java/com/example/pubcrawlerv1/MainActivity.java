@@ -1,7 +1,9 @@
 package com.example.pubcrawlerv1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Log.d(TAG, "onCreate: FOUND " + getIntent().getStringExtra("email"));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -58,6 +60,11 @@ public class MainActivity extends AppCompatActivity
         adapter.addFragment(new ListBeerFragment(), "ListBeer");
         adapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
         adapter.addFragment(new StandardMapFragment(), "StandardMap");
+        Bundle bundle = new Bundle();
+        bundle.putString("email", getIntent().getStringExtra("email"));
+        for(int i = 0; i < adapter.getCount(); i++){
+            adapter.getItem(i).setArguments(bundle);
+        }
         viewPager.setAdapter(adapter);
 
 
@@ -98,6 +105,9 @@ public class MainActivity extends AppCompatActivity
         Log.v("onOptionsItemSelected","selected menuitem");
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+
+            startActivity(intent);
             return true;
         }
 

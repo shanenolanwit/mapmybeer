@@ -1,5 +1,9 @@
 package com.example.models;
 
+import android.util.Base64;
+
+import java.io.UnsupportedEncodingException;
+
 public class User {
 
     private String email;
@@ -10,7 +14,7 @@ public class User {
 
     public User(String email, String password) {
         this.email = email;
-        this.password = password;
+        setPassword(password);
     }
 
     public String getEmail() {
@@ -26,7 +30,14 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        try{
+            byte[] data = password.getBytes("UTF-8");
+            String base64 = Base64.encodeToString(data, Base64.DEFAULT);
+            this.password = base64;
+        } catch(UnsupportedEncodingException e){
+
+        }
+
     }
 
     @Override

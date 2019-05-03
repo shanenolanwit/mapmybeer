@@ -349,8 +349,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Log.d(TAG, "onResponse: " + uar);
                         if(uar.isAuthenticated()){
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            String message = "hellllllo";
-                            intent.putExtra(EXTRA_MESSAGE, message);
+                            intent.putExtra("email", mEmail);
                             startActivity(intent);
                         } else{
                             mPasswordView.setError(getString(R.string.error_incorrect_password));
