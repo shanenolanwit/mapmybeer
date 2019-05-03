@@ -160,7 +160,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                     Bitmap img = drawable.getBitmap();
                     String[] latLng = beerLocation.split(",");
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
-                    Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
+                    Beer newBeer = new Beer(getArguments().getString("email"), beerName,beerReview,img,beerCoordinates,beerDate);
                     newBeer.setBeerId(beerId);
                     Log.d(TAG, "onClick: clicked update beer " + beerName);
 

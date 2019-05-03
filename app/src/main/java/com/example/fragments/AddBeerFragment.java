@@ -109,7 +109,7 @@ public class AddBeerFragment extends Fragment implements BeerForm{
                     Bitmap img = drawable.getBitmap();
                     String[] latLng = beerLocation.split(",");
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
-                    Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
+                    Beer newBeer = new Beer(getArguments().getString("email"), beerName,beerReview,img,beerCoordinates,beerDate);
                     Log.d(TAG, "onClick: clicked add beer " + beerName);
 
                     Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
