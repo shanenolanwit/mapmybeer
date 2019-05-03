@@ -29,12 +29,13 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/beerpic"
         android:layout_below="@id/beerPreview"
-        android:text="Take Picture"
+        android:background="@drawable/ic_menu_camera"
+        android:text=""
         />
 
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerName"
         android:textSize="15sp"
@@ -44,7 +45,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerReview"
         android:inputType="textMultiLine"
@@ -55,7 +56,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerDate"
         android:textSize="15sp"
@@ -67,7 +68,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerLocation"
         android:textSize="15sp"
@@ -78,7 +79,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerId"
         android:textSize="15sp"
@@ -93,7 +94,7 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/beerId"
+        android:layout_below="@id/beerDate"
         android:layout_centerHorizontal="true"
 
         >
