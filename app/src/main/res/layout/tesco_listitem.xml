@@ -38,6 +38,17 @@
             android:textSize="14sp"
             android:textStyle="bold" />
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
+            android:id="@+id/plus"
+            android:layout_below="@+id/name"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="90dp"
+            android:drawableRight="@drawable/ic_menu_add_24dp"
+            android:text=""/>
+
 
 
 
