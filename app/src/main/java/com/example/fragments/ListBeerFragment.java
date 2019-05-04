@@ -47,7 +47,11 @@ public class ListBeerFragment extends Fragment {
         ArrayList<String> mNames = new ArrayList<>();
         ArrayList<String> mBase64images = new ArrayList<>();
 
-        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        String url = "";
+        if(isAdded()){
+            url = getResources().getString(R.string.nodemybeer_url);
+        }
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Log.d(TAG, "onCreateView: " + mBase64images.size());
         adapter = new BeerRecyclerViewAdapter(getContext(), mIds, mNames, mBase64images);
@@ -96,7 +100,11 @@ public class ListBeerFragment extends Fragment {
     }
 
     private void updateData(){
-        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        String url = "";
+        if(isAdded()){
+           url = getResources().getString(R.string.nodemybeer_url);
+        }
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
 
         Call call = api.getBeers(getArguments().getString("email"));

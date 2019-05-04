@@ -336,7 +336,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
             try {
-                Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(getResources().getString(R.string.nodemybeer_url));
                 MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
                 User user = new User(mEmail,mPassword);
                 Call call = api.auth(user);

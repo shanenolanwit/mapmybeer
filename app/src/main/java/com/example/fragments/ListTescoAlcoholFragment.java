@@ -51,7 +51,10 @@ public class ListTescoAlcoholFragment extends Fragment {
         ArrayList<String> mNames = new ArrayList<>();
         ArrayList<String> mDescriptions = new ArrayList<>();
         ArrayList<String> mImages = new ArrayList<>();
-        String tescoApiUrl = getResources().getString(R.string.tesco_lambda_url);
+        String tescoApiUrl = "";
+        if(isAdded()){
+            tescoApiUrl = getResources().getString(R.string.tesco_lambda_url);
+        }
         Retrofit retrofit = TescoAPIClient.getRetrofitClient(tescoApiUrl);
         TescoAPIInterface api = retrofit.create(TescoAPIInterface.class);
         Log.d(TAG, "onCreateView: " + mImages.size());
@@ -105,7 +108,11 @@ public class ListTescoAlcoholFragment extends Fragment {
     }
 
     private void updateData(){
-        Retrofit retrofit = TescoAPIClient.getRetrofitClient("https://im33aoagff.execute-api.eu-west-1.amazonaws.com/");
+        String url = "";
+        if(isAdded()){
+            url = getResources().getString(R.string.tesco_lambda_url);
+        }
+        Retrofit retrofit = TescoAPIClient.getRetrofitClient(url);
         TescoAPIInterface api = retrofit.create(TescoAPIInterface.class);
         int limit = 3;
         Call call = api.getAll(limit,getOffset());

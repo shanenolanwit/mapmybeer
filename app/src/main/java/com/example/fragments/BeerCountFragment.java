@@ -61,7 +61,11 @@ public class BeerCountFragment extends Fragment {
 
     private void updateData(){
         Log.d(TAG, "updateData: called update data");
-        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        String url = "";
+        if(isAdded()){
+            url = getResources().getString(R.string.nodemybeer_url);
+        }
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Call call = api.countBeers(getArguments().getString("email"));
         if(fromDateET != null && toDateET != null){

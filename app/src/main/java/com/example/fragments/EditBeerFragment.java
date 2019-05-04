@@ -67,7 +67,11 @@ public class EditBeerFragment extends Fragment implements BeerForm {
     private ChangeSensitiveDatePickerDialog beerDatePickerDialog;
 
     private void updateData(){
-        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        String url = "";
+        if(isAdded()){
+            url = getResources().getString(R.string.nodemybeer_url);
+        }
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Call call = api.getBeer(getBeerId());
         call.enqueue(new Callback() {
@@ -167,7 +171,11 @@ public class EditBeerFragment extends Fragment implements BeerForm {
 
                     Toast.makeText(getContext(),"Updated Beer", Toast.LENGTH_SHORT).show();
 
-                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                    String url = "";
+                    if(isAdded()){
+                        url = getResources().getString(R.string.nodemybeer_url);
+                    }
+                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
                     MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
                     Call call = api.updateBeer(newBeer, beerId);
                     call.enqueue(new Callback() {
@@ -204,8 +212,11 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                 String beerName = beerNameET.getText().toString();
                 String beerId = beerIdET.getText().toString();
                 Toast.makeText(getContext(),"Deleted Beer", Toast.LENGTH_SHORT).show();
-
-                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                String url = "";
+                if(isAdded()){
+                    url = getResources().getString(R.string.nodemybeer_url);
+                }
+                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
                     MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
                     Call call = api.deleteBeer(beerId);
                     call.enqueue(new Callback() {

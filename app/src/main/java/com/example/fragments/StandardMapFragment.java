@@ -69,7 +69,11 @@ public class StandardMapFragment extends Fragment implements OnMapReadyCallback,
 
     private void updateData(){
         Log.d(TAG, "updateData: called update data");
-        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+        String url = "";
+        if(isAdded()){
+            url = getResources().getString(R.string.nodemybeer_url);
+        }
+        Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
         Call call = api.locateBeers("");
         if(filterET != null){

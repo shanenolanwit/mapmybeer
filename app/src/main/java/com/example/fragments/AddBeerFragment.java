@@ -123,7 +123,11 @@ public class AddBeerFragment extends Fragment implements BeerForm{
 
                     Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
 
-                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
+                    String url = "";
+                    if(isAdded()){
+                        url = getResources().getString(R.string.nodemybeer_url);
+                    }
+                    Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient(url);
                     MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
                     Call call = api.createBeer(newBeer);
                     call.enqueue(new Callback() {
