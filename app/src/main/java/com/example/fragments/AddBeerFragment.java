@@ -74,6 +74,7 @@ public class AddBeerFragment extends Fragment implements BeerForm{
         beerDateET.setGravity(Gravity.CENTER);
         beerLocationET = (EditText) view.findViewById(R.id.beerLocation);
         beerLocationET.setGravity(Gravity.CENTER);
+        beerLocationET.setVisibility(View.INVISIBLE);
         addBeerButton = (Button) view.findViewById(R.id.addBeerButton);
 
         beerPicButton = (Button) view.findViewById(R.id.beerpic);

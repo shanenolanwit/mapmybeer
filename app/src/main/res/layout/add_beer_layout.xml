@@ -25,16 +25,17 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/beerpic"
         android:layout_below="@id/beerPreview"
-        android:text="Take Picture"
+        android:background="@drawable/ic_menu_camera"
+        android:text=""
         />
 
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerName"
         android:textSize="15sp"
@@ -44,7 +45,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerReview"
         android:inputType="textMultiLine"
@@ -55,7 +56,7 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerDate"
         android:textSize="15sp"
@@ -67,14 +68,14 @@
         />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/beerLocation"
         android:textSize="15sp"
         android:focusableInTouchMode="false"
         android:layout_below="@id/beerDate"
         android:layout_centerHorizontal="true"
-        android:hint="Select Location Below"
+        android:visibility="gone"
         />
 
     <Button
@@ -82,9 +83,10 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_below="@id/beerLocation"
+        android:layout_below="@id/beerDate"
         android:id="@+id/addBeerButton"
-        android:text="Feed"/>
+        android:drawableLeft="@drawable/ic_menu_add_24dp"
+        android:text="Add"/>
 
 
     <FrameLayout

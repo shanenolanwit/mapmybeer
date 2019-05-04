@@ -123,7 +123,6 @@ public class ListBeerFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            Log.d(TAG, "setUserVisibleHint: refresssssssh");
             updateData();
         }
     }
