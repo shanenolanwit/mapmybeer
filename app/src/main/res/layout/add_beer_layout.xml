@@ -25,7 +25,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_centerHorizontal="true"
         android:id="@+id/beerpic"
         android:layout_below="@id/beerPreview"
@@ -85,7 +85,8 @@
         android:layout_marginTop="10dp"
         android:layout_below="@id/beerDate"
         android:id="@+id/addBeerButton"
-        android:text="Feed"/>
+        android:drawableLeft="@drawable/ic_menu_add_24dp"
+        android:text="Add"/>
 
 
     <FrameLayout
