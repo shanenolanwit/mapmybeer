@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private CustomViewPager mViewPager;
+    private String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +55,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpViewPager(ViewPager viewPager){
-        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BeerCountFragment(), "Count");
-        adapter.addFragment(new AddBeerFragment(), "AddBeer");
-        adapter.addFragment(new ListBeerFragment(), "ListBeer");
-        adapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
-        adapter.addFragment(new StandardMapFragment(), "StandardMap");
+        mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        mSectionsStatePagerAdapter.addFragment(new BeerCountFragment(), "Count");
+        mSectionsStatePagerAdapter.addFragment(new AddBeerFragment(), "AddBeer");
+        mSectionsStatePagerAdapter.addFragment(new ListBeerFragment(), "ListBeer");
+        mSectionsStatePagerAdapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
+        mSectionsStatePagerAdapter.addFragment(new StandardMapFragment(), "StandardMap");
         Bundle bundle = new Bundle();
         bundle.putString("email", getIntent().getStringExtra("email"));
-        for(int i = 0; i < adapter.getCount(); i++){
-            adapter.getItem(i).setArguments(bundle);
+        for(int i = 0; i < mSectionsStatePagerAdapter.getCount(); i++){
+            setEmail(getIntent().getStringExtra("email"));
+            mSectionsStatePagerAdapter.getItem(i).setArguments(bundle);
         }
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(mSectionsStatePagerAdapter);
 
 
     }
@@ -89,6 +91,15 @@ public class MainActivity extends AppCompatActivity
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    public void addToForm(String name, String imgUrl){
+        Bundle bundleFeatures = new Bundle();
+        bundleFeatures.putString("name", name);
+        bundleFeatures.putString("img", imgUrl);
+        mSectionsStatePagerAdapter.getItem(1).setArguments(bundleFeatures);
+        setViewPager(1);
+
     }
 
     /**
@@ -151,5 +162,13 @@ public class MainActivity extends AppCompatActivity
 
     public void setmViewPager(CustomViewPager mViewPager) {
         this.mViewPager = mViewPager;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
