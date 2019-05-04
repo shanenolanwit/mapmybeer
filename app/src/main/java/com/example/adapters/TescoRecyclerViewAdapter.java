@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
 import com.squareup.picasso.Picasso;
 
@@ -65,6 +67,14 @@ public class TescoRecyclerViewAdapter extends RecyclerView.Adapter<TescoRecycler
 
             }
         });
+
+        viewHolder.add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: Add this thing");
+                ((MainActivity) mContext).addToForm(mNames.get(i), mImageUrls.get(i));
+            }
+        });
     }
 
     @Override
@@ -89,11 +99,13 @@ public class TescoRecyclerViewAdapter extends RecyclerView.Adapter<TescoRecycler
 
         ImageView image;
         TextView name;
+        Button add;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.image);
             name = itemView.findViewById(R.id.name);
+            add = itemView.findViewById(R.id.plus);
         }
     }
 }

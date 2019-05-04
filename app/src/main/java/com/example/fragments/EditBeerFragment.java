@@ -121,6 +121,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
         beerDateET.setGravity(Gravity.CENTER);
         beerLocationET = (EditText) view.findViewById(R.id.beerLocation);
         beerLocationET.setGravity(Gravity.CENTER);
+        beerLocationET.setVisibility(View.INVISIBLE);
         beerIdET = (EditText) view.findViewById(R.id.beerId);
         editBeerButton = (Button) view.findViewById(R.id.editBeerButton);
         deleteBeerButton = (Button) view.findViewById(R.id.deleteBeerButton);
@@ -160,7 +161,7 @@ public class EditBeerFragment extends Fragment implements BeerForm {
                     Bitmap img = drawable.getBitmap();
                     String[] latLng = beerLocation.split(",");
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
-                    Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
+                    Beer newBeer = new Beer("SHOULD USE ID", beerName,beerReview,img,beerCoordinates,beerDate);
                     newBeer.setBeerId(beerId);
                     Log.d(TAG, "onClick: clicked update beer " + beerName);
 

@@ -1,7 +1,9 @@
 package com.example.pubcrawlerv1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity
 
     private SectionsStatePagerAdapter mSectionsStatePagerAdapter;
     private CustomViewPager mViewPager;
+    private String email = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        Log.d(TAG, "onCreate: FOUND " + getIntent().getStringExtra("email"));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -52,13 +55,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setUpViewPager(ViewPager viewPager){
-        SectionsStatePagerAdapter adapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BeerCountFragment(), "Count");
-        adapter.addFragment(new AddBeerFragment(), "AddBeer");
-        adapter.addFragment(new ListBeerFragment(), "ListBeer");
-        adapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
-        adapter.addFragment(new StandardMapFragment(), "StandardMap");
-        viewPager.setAdapter(adapter);
+        mSectionsStatePagerAdapter = new SectionsStatePagerAdapter(getSupportFragmentManager());
+        mSectionsStatePagerAdapter.addFragment(new BeerCountFragment(), "Count");
+        mSectionsStatePagerAdapter.addFragment(new AddBeerFragment(), "AddBeer");
+        mSectionsStatePagerAdapter.addFragment(new ListBeerFragment(), "ListBeer");
+        mSectionsStatePagerAdapter.addFragment(new ListTescoAlcoholFragment(), "ListTesco");
+        mSectionsStatePagerAdapter.addFragment(new StandardMapFragment(), "StandardMap");
+        Bundle bundle = new Bundle();
+        bundle.putString("email", getIntent().getStringExtra("email"));
+        for(int i = 0; i < mSectionsStatePagerAdapter.getCount(); i++){
+            setEmail(getIntent().getStringExtra("email"));
+            mSectionsStatePagerAdapter.getItem(i).setArguments(bundle);
+        }
+        viewPager.setAdapter(mSectionsStatePagerAdapter);
 
 
     }
@@ -84,6 +93,15 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void addToForm(String name, String imgUrl){
+        Bundle bundleFeatures = new Bundle();
+        bundleFeatures.putString("name", name);
+        bundleFeatures.putString("img", imgUrl);
+        mSectionsStatePagerAdapter.getItem(1).setArguments(bundleFeatures);
+        setViewPager(1);
+
+    }
+
     /**
      * Menu on top right
      * @param item
@@ -98,6 +116,9 @@ public class MainActivity extends AppCompatActivity
         Log.v("onOptionsItemSelected","selected menuitem");
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+
+            startActivity(intent);
             return true;
         }
 
@@ -141,5 +162,13 @@ public class MainActivity extends AppCompatActivity
 
     public void setmViewPager(CustomViewPager mViewPager) {
         this.mViewPager = mViewPager;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

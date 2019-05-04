@@ -2,6 +2,7 @@ package com.example.fragments;
 
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,7 +63,7 @@ public class BeerCountFragment extends Fragment {
         Log.d(TAG, "updateData: called update data");
         Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
-        Call call = api.countBeers();
+        Call call = api.countBeers(getArguments().getString("email"));
         if(fromDateET != null && toDateET != null){
             String fromDate = fromDateET.getText().toString();
             String toDate = toDateET.getText().toString();
@@ -71,7 +72,7 @@ public class BeerCountFragment extends Fragment {
                 try{
                     fromDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(fromDate));
                     toDate = new SimpleDateFormat("yyyy-MM-dd").format(new SimpleDateFormat("dd/MM/yyyy").parse(toDate));
-                    call = api.countBeers(new BeerCountFilter(fromDate,toDate));
+                    call = api.countBeers(new BeerCountFilter(fromDate,toDate), getArguments().getString("email"));
                 } catch(Exception e){
                     Log.d(TAG, "updateData: got an exception parsing dates");
                 }
@@ -92,6 +93,7 @@ public class BeerCountFragment extends Fragment {
                 List yAxisValues = new ArrayList();
                 List axisValues = new ArrayList();
                 Line line = new Line(yAxisValues);
+                line.setColor(Color.BLUE);
                 int max =0;
                 for(int i = 0; i < dateCounts.size(); i++){
                     Log.d(TAG, "onResponse: ");
@@ -108,10 +110,14 @@ public class BeerCountFragment extends Fragment {
 
                 Axis axis = new Axis();
                 axis.setValues(axisValues);
+                axis.setLineColor(Color.BLACK);
+                axis.setTextColor(Color.BLACK);
                 data.setAxisXBottom(axis);
                 Axis yAxis = new Axis();
                 data.setAxisYLeft(yAxis);
-                yAxis.setName("Sales in millions");
+                yAxis.setName("Beers Drank");
+                yAxis.setLineColor(Color.BLACK);
+                yAxis.setTextColor(Color.BLACK);
 
                 lineChartView.setLineChartData(data);
 
@@ -209,6 +215,8 @@ public class BeerCountFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
+        String x = getArguments().getString("email");
+        Log.d(TAG, "onViewCreated: I found me own arg " + x);
     }
 
 

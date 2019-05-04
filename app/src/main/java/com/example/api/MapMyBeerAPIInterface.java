@@ -7,6 +7,8 @@ import com.example.models.BeerCountFilter;
 import com.example.models.BeerCountRetrofit;
 import com.example.models.BeerListRetrofit;
 import com.example.models.BeerRetrofit;
+import com.example.models.User;
+import com.example.models.UserAuthResult;
 
 import java.util.List;
 
@@ -16,8 +18,12 @@ import retrofit2.http.DELETE;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface MapMyBeerAPIInterface {
+
+    @POST("auth")
+    Call<UserAuthResult> auth(@Body User user);
 
     @POST("beers/new")
     Call<BeerRetrofit> createBeer(@Body Beer beer);
@@ -26,13 +32,13 @@ public interface MapMyBeerAPIInterface {
     Call<BeerRetrofit> updateBeer(@Body Beer beer, @Path("beerId") String beerId);
 
     @GET("beers")
-    Call<BeerListRetrofit> getBeers();
+    Call<BeerListRetrofit> getBeers(@Query("email") String email);
 
     @GET("count")
-    Call<BeerCountRetrofit> countBeers();
+    Call<BeerCountRetrofit> countBeers(@Query("email") String email);
 
     @POST("count")
-    Call<BeerCountRetrofit> countBeers(@Body BeerCountFilter filter);
+    Call<BeerCountRetrofit> countBeers(@Body BeerCountFilter filter, @Query("email") String email);
 
     @GET("beers/{beerId}")
     Call<BeerListRetrofit> getBeer(@Path("beerId") String beerId);

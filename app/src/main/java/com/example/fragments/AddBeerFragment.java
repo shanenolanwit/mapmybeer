@@ -31,13 +31,13 @@ import com.example.models.BeerCoordinates;
 import com.example.models.BeerValidator;
 import com.example.pubcrawlerv1.MainActivity;
 import com.example.pubcrawlerv1.R;
+import com.squareup.picasso.Picasso;
 
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -60,6 +60,12 @@ public class AddBeerFragment extends Fragment implements BeerForm{
 
     private ChangeSensitiveDatePickerDialog beerDatePickerDialog;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,12 +74,15 @@ public class AddBeerFragment extends Fragment implements BeerForm{
 
         beerNameET = (EditText) view.findViewById(R.id.beerName);
         beerNameET.setGravity(Gravity.CENTER);
+        beerNameET.setText(getArguments().getString("name"));
         beerReviewET = (EditText) view.findViewById(R.id.beerReview);
         beerReviewET.setGravity(Gravity.CENTER);
         beerDateET = (EditText) view.findViewById(R.id.beerDate);
         beerDateET.setGravity(Gravity.CENTER);
         beerLocationET = (EditText) view.findViewById(R.id.beerLocation);
         beerLocationET.setGravity(Gravity.CENTER);
+        beerLocationET.setText("52.24610307207322,-7.137986160814762");
+        beerLocationET.setVisibility(View.INVISIBLE);
         addBeerButton = (Button) view.findViewById(R.id.addBeerButton);
 
         beerPicButton = (Button) view.findViewById(R.id.beerpic);
@@ -109,7 +118,7 @@ public class AddBeerFragment extends Fragment implements BeerForm{
                     Bitmap img = drawable.getBitmap();
                     String[] latLng = beerLocation.split(",");
                     BeerCoordinates beerCoordinates = new BeerCoordinates(latLng[0],latLng[1]);
-                    Beer newBeer = new Beer(beerName,beerReview,img,beerCoordinates,beerDate);
+                    Beer newBeer = new Beer(((MainActivity)getActivity()).getEmail(), beerName,beerReview,img,beerCoordinates,beerDate);
                     Log.d(TAG, "onClick: clicked add beer " + beerName);
 
                     Toast.makeText(getContext(),"Created Beer", Toast.LENGTH_SHORT).show();
@@ -160,6 +169,8 @@ public class AddBeerFragment extends Fragment implements BeerForm{
             }
         });
 
+
+
         return view;
     }
 
@@ -188,8 +199,31 @@ public class AddBeerFragment extends Fragment implements BeerForm{
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        if(getArguments() != null){
+            Log.d(TAG, "onResume: " + getArguments().toString());
+            Log.d(TAG, "onResume: contains key " +  getArguments().containsKey("name"));
+            if(getArguments().containsKey("name")){
+                Log.d(TAG, "onResume: " +  getArguments().getString("name"));
+                beerNameET.setText(getArguments().getString("name"));
+            }
+            if(getArguments().containsKey("img")){
+
+                Picasso.get().load(getArguments().getString("img")).into((ImageView) beerPreview);
+            }
+        }else{
+            Log.d(TAG, "onResume: null bro");
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+
         insertNestedFragment();
+
+        
     }
 
     // Embeds the child fragment dynamically

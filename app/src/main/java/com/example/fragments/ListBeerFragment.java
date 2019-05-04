@@ -52,7 +52,7 @@ public class ListBeerFragment extends Fragment {
         Log.d(TAG, "onCreateView: " + mBase64images.size());
         adapter = new BeerRecyclerViewAdapter(getContext(), mIds, mNames, mBase64images);
 
-        Call call = api.getBeers();
+        Call call = api.getBeers(getArguments().getString("email"));
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -99,7 +99,7 @@ public class ListBeerFragment extends Fragment {
         Retrofit retrofit = MapMyBeerAPIClient.getRetrofitClient();
         MapMyBeerAPIInterface api = retrofit.create(MapMyBeerAPIInterface.class);
 
-        Call call = api.getBeers();
+        Call call = api.getBeers(getArguments().getString("email"));
         call.enqueue(new Callback() {
             @Override
             public void onResponse(Call call, Response response) {
@@ -123,7 +123,6 @@ public class ListBeerFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            Log.d(TAG, "setUserVisibleHint: refresssssssh");
             updateData();
         }
     }
