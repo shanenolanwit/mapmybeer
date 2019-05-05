@@ -90,7 +90,7 @@ Inside that file create the following key/value resources
 ![Chart with filters](screenshots/chart2.png?raw=true "Chart my Beer with Filters")
 
 ### Map / Discover Beers ###
-![Map no filters](screenshots/map1.png?raw=true "Map my Beer")  
+![Map no filters](screenshots/map1.png?raw=true "Map my Beer")
 ![Map with filters](screenshots/map2.png?raw=true "Map my Beer with Filters")
 
 ### Tesco API Integration ###
